@@ -64,7 +64,8 @@ end
 
 def get_routes viewstate, ev_validation, transport_type, line_id
 
-    routes = {}
+    routes = []
+    vs, ev = nil, nil
 
     Net::HTTP.start(SKGT.host, SKGT.port) do |http|
         request = Net::HTTP::Post.new SKGT.path
@@ -82,10 +83,28 @@ def get_routes viewstate, ev_validation, transport_type, line_id
             http.request request
         end
 
-        puts response.body
-        
+        page = Nokogiri::HTML response.body
+
+        vs, ev = get_junk page
+
+        route0 = page.xpath('//input[@id=\'ctl00_ContentPlaceHolder1_rblRoute_0\']')
+        route1 = page.xpath('//input[@id=\'ctl00_ContentPlaceHolder1_rblRoute_1\']')
+
+        routes = ([route0, route1]).map do |route| 
+            [
+             route.xpath('following-sibling::label[position()=1]').children.to_s,
+             route.attribute('value').to_s
+            ]
+        end
+
     end
+
+    puts routes
+
+    return vs, ev, routes
 end
+
+
 
 vs, ev_validation = get_initial
 vs, ev_validation, lines = get_lines vs, ev_validation, TRANSPORT_TYPE
