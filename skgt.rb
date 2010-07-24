@@ -54,10 +54,11 @@ class SKGTHandler
                     'ctl00$ContentPlaceHolder1$ddlStops' => ''
 
 
-        lines = {}
-
-        page.xpath('//select[@name=\'ctl00$ContentPlaceHolder1$ddlLines\']/option').each do |option|
-            lines[option.children.to_s] = option.attribute('value').to_s if option.attribute('value').to_s.length > 0
+        lines = page.xpath('//select[@name=\'ctl00$ContentPlaceHolder1$ddlLines\']/option').map do |option|
+            [
+             option.children.to_s,
+             option.attribute('value').to_s
+            ] if option.attribute('value').to_s.length > 0
         end
 
         return lines
