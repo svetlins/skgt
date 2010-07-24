@@ -12,16 +12,29 @@
 
 <body>
 
-<form action="/lines/" method="get">
+<form>
     <select name="ttype">
+        <option class="empty"></option>
         <option value="1">Автобус</option>
         <option value="0">Трамвай</option>
         <option value="2">Тролейбус</option>
     </select>
+
+    <select name="line">
+        <option class="empty"></option>
+    </select>
+
+    <select name="route">
+        <option class="empty"></option>
+    </select>
+
+    <select name="stop">
+        <option class="empty"></option>
+    </select>
 </form>
 
-<form action="/routes/" method="get">
-</form>
+<div id="time">
+</div>
 
 </body>
 
