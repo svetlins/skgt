@@ -8,32 +8,38 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="/jquery.form.js"></script>
 <script src="/skgt.js"></script>
+
+<link rel="stylesheet" href="/reset.css" />
+<link rel="stylesheet" href="/skgt.css" />
 </head>
 
 <body>
 
 <form>
-    <select name="ttype">
+    <select name="ttype" size="4">
         <option class="empty"></option>
         <option value="1">Автобус</option>
         <option value="0">Трамвай</option>
         <option value="2">Тролейбус</option>
     </select>
 
-    <select name="line">
+    <select name="line" size="5">
         <option class="empty"></option>
     </select>
 
-    <select name="route">
+    <select name="route" size="2">
         <option class="empty"></option>
     </select>
 
-    <select name="stop">
+    <select name="stop" size="10">
         <option class="empty"></option>
     </select>
 </form>
 
 <div id="time">
+</div>
+
+<div id="spinner">
 </div>
 
 </body>
