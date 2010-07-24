@@ -1,0 +1,41 @@
+select {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    font-size: 1.5em
+}
+
+select[name="ttype"] {
+    background-color: #9c9;
+}
+
+select[name="line"] {
+    background-color: #99c;
+}
+
+select[name="route"] {
+    background-color: #c99;
+}
+
+select[name="stop"] {
+    background-color: #c9c;
+}
+
+#time div {
+    font-size: 2em;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+}
+
+#spinner {
+    position: fixed;
+    top: 45%;
+    left: 45%;
+    width: 66px;
+    height: 66px;
+    background-image: url('/spinner.gif');
+    opacity: 0.0;
+}
