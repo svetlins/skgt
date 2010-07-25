@@ -10,10 +10,31 @@ class SKGTHandler
         get_initial_state()
     end
 
-    def get_state page
-        @vs = page.xpath("//input[@name='__VIEWSTATE']").attribute('value').to_s
-        @ev = page.xpath("//input[@name='__EVENTVALIDATION']").attribute('value').to_s
+    @@sequence = [
+        :get_lines,
+        :get_routes,
+        :get_stops,
+        :get_times,
+    ]
+
+    def method_missing method, *arguments, &block
+        if @@sequence.member? method
+            current_index = 0
+            method_index = @@sequence.index method
+
+
+            while method_index != current_index do
+                send @@sequence[current_index], *arguments[0..current_index]
+                current_index += 1
+            end
+
+            send method, *arguments
+        else
+            raise NoMethodError, method
+        end
     end
+
+    private
 
     def get_initial_state
         Net::HTTP.start(SKGT_ADDR.host, SKGT_ADDR.port) do |http|
@@ -22,6 +43,11 @@ class SKGTHandler
 
             get_state page
         end
+    end
+
+    def get_state page
+        @vs = page.xpath("//input[@name='__VIEWSTATE']").attribute('value').to_s
+        @ev = page.xpath("//input[@name='__EVENTVALIDATION']").attribute('value').to_s
     end
 
     def post data
@@ -61,11 +87,10 @@ class SKGTHandler
             ] if option.attribute('value').to_s.length > 0
         end
 
-        return lines
+        return lines.compact
     end
 
     def get_routes transport_type, line_id
-
         page = post '__VIEWSTATE' => @vs,
                     '__EVENTVALIDATION' => @ev,
                     'ctl00$ScriptManager1' => 'ctl00$ContentPlaceHolder1$upMain|ctl00$ContentPlaceHolder1$ddlLines',
@@ -88,7 +113,7 @@ class SKGTHandler
             ]
         end
 
-        return routes
+        return routes.compact
     end
 
     def get_stops transport_type, line_id, route_id
@@ -110,7 +135,7 @@ class SKGTHandler
             ] if option.attribute('value').to_s.length > 0
         end
 
-        return stops
+        return stops.compact
     end
 
     def get_times transport_type, line_id, route_id, stop_id
@@ -130,22 +155,23 @@ class SKGTHandler
             span.children.to_s
         end
 
-        return times
+        return times.compact
     end
-end
 
 end
 
-#skgt = Skgt::SKGTHandler.new
-#
+end
+
+skgt = Skgt::SKGTHandler.new
+
 #lines = skgt.get_lines 1
 #p lines
 #
-#routes = skgt.get_routes 1, lines['102']
+#routes = skgt.get_routes 1, lines[50][1]
 #p routes[0][0]
 #
-#stops = skgt.get_stops 1, lines['102'], routes[0][1]
+#stops = skgt.get_stops 1, lines[50][1], routes[0][1]
 #p stops
 #
-#times = skgt.get_times 1, lines['102'], routes[0][1], stops[4][1]
-#p times
+#p 1, lines[50][1], routes[0][1], stops[5][1] 
+#p skgt.get_times 1, '54', "1076", "16899"
