@@ -4,6 +4,10 @@ require 'json'
 
 enable :sessions
 
+get'/' do
+    redirect '/main.html'
+end
+
 get '/lines/' do
     content_type 'text/json', :charset => 'utf-8'
     skgt = Skgt::SKGTHandler.new
@@ -29,6 +33,9 @@ get '/stops/' do
 end
 
 get '/times/' do
+    # for testing purposes
+    # return JSON.dump((0..7).map { |x| '22:%02d' % (5 * x) })
+
     content_type 'text/json', :charset => 'utf-8'
     skgt = Skgt::SKGTHandler.new
     times = skgt.get_times params[:ttype], params[:line], params[:route], params[:stop]
@@ -38,4 +45,5 @@ get '/times/' do
     end
 
     JSON.dump(times)
+
 end
