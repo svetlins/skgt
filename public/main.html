@@ -4,39 +4,67 @@
 <title>
     Градски транспорт София
 </title>
-<meta equiv="Content-Type" value="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" value="text/html; charset=utf-8" />
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="/jquery.form.js"></script>
 <script src="/skgt.js"></script>
 
 <link rel="stylesheet" href="/reset.css" />
 <link rel="stylesheet" href="/skgt.css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" /> 
+<link rel="apple-touch-icon" href="http://nikolay.bg/iphone/static/images/bdz-webclip.png"/>
 </head>
 
 <body>
 
+<div id="header">
+    <h1>СКГТ</h1>
+</div>
+
 <form>
-    <select name="ttype" size="4">
+    <label for="ttype">
+        Вид транспорт
+    </label>
+    <select name="ttype">
         <option class="empty"></option>
         <option value="1">Автобус</option>
         <option value="0">Трамвай</option>
         <option value="2">Тролейбус</option>
     </select>
 
-    <select name="line" size="5">
+    <br />
+
+    <div>
+    <label for="line">
+        Линия
+    </label>
+    <select name="line" disabled="true">
+        <option class="empty"></option>
+    </select>
+    </div>
+
+    <br />
+
+    <label for="route">
+        Посока
+    </label>
+    <select name="route" disabled="true">
         <option class="empty"></option>
     </select>
 
-    <select name="route" size="2">
-        <option class="empty"></option>
-    </select>
+    <br />
 
-    <select name="stop" size="10">
+    <label for="stop">
+        Спирка
+    </label>
+    <select name="stop" disabled="true">
         <option class="empty"></option>
     </select>
 </form>
 
-<div id="time">
+<div id="times">
 </div>
 
 <div id="spinner">
@@ -45,4 +73,3 @@
 </body>
 
 </html>
-

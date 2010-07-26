@@ -5,7 +5,7 @@ li, dl, dt, dd, form, a, fieldset, input, th, td {
 
 body {
     line-height: 1;
-    font-size: 88% /* Decide for yourself if you want to include this. */;
+    font-size: 88% ;
 }
 
 h1, h2, h3, h4, h5, h6 {

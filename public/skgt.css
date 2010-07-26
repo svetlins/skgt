@@ -1,41 +1,86 @@
-select {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 40%;
-    font-size: 1.5em
+body {
+    font-family: "Georgia", serif;
 }
 
-select[name="ttype"] {
-    background-color: #9c9;
+#header {
+    width: 100%;
+    background-color: #DF2D46;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#DF2D46), to(#DF2D46), color-stop(0,#FF7381),color-stop(1,#FF7381));
+    border-bottom: 1px solid black;
+    margin: 0 0 10px 0;
+    padding: 0;
 }
 
-select[name="line"] {
-    background-color: #99c;
-}
-
-select[name="route"] {
-    background-color: #c99;
-}
-
-select[name="stop"] {
-    background-color: #c9c;
-}
-
-#time div {
+#header h1 {
     font-size: 2em;
-    margin-top: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
+    margin: 0;
+    padding: 10px 0px 0px 0px;
+    letter-spacing: 2px;
+    color: white;
+    text-shadow: black 1px 1px 1px;
+}
+
+label:after {
+    content: ":";
+}
+
+label {
+    width: 35%;
+    display: inline-block;
+    font-size: 1.2em;
+    margin-left: 2px;
+}
+
+select {
+    font-size: 1em;
+    margin-bottom: 20px;
+    width: 60%;
+    background-color: white;
+}
+
+select[disabled] {
+    opacity: 0.3;
 }
 
 #spinner {
     position: fixed;
-    top: 45%;
-    left: 45%;
-    width: 66px;
-    height: 66px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background-color: gray;
+    opacity: 0.8;
     background-image: url('/spinner.gif');
-    opacity: 0.0;
+    background-repeat: no-repeat;
+    background-position: 50% 25%;
+    display: none;
+}
+
+#times {
+    width: 100%;
+}
+
+#main-time {
+    font-size: 4em;
+    color: #DF2D46;
+    display: inline;
+    margin: 10px;
+}
+
+#other-times {
+    font-size: 2em;
+    color: #f77;
+}
+
+#other-times:before {
+    content: "Следващи:  "
+}
+
+#sorry {
+    color: #f77;
+}
+
+#sorry:after {
+    font-size: 4em;
+    content: "Не го чакай";
 }
