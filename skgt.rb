@@ -35,6 +35,15 @@ module Skgt
             end
         end
 
+        def get_state
+            [@vs, @ev]
+        end
+
+        def set_state state
+            @vs, @ev = state
+        end
+            
+
         private
 
         def get_initial_state
@@ -42,11 +51,11 @@ module Skgt
                 response = http.get(SKGT_ADDR.path)
                 page = Nokogiri::HTML response.body
 
-                get_state page
+                read_state page
             end
         end
 
-        def get_state page
+        def read_state page
             @vs = page.xpath("//input[@name='__VIEWSTATE']").attribute('value').to_s
             @ev = page.xpath("//input[@name='__EVENTVALIDATION']").attribute('value').to_s
         end
@@ -60,7 +69,7 @@ module Skgt
 
                 page = Nokogiri::HTML response.body, nil, 'UTF-8'
 
-                get_state page
+                read_state page
 
                 page
             end
@@ -160,6 +169,43 @@ module Skgt
             return times.compact
         end
 
+    end
+
+
+    def self.build_cache
+        init = [
+            ['bus', 1],
+            ['tram', 0],
+            ['trol', 2]
+        ]
+
+        cache = {}
+
+        skgt = SKGTHandler.new
+
+        init.each do |type_name, type_id|
+            state = skgt.get_state
+
+            (skgt.get_lines type_id).each do |line_name, line_id|
+                state = skgt.get_state
+
+                (skgt.get_routes type_id, line_id).each do |route_name, route_id|
+                    state = skgt.get_state
+
+                    cache[type_id] ||= {'name' => type_name, 'lines' => {}}
+                    cache[type_id]['lines'][line_id] ||= {'name' => line_name, 'routes' => {}}
+                    cache[type_id]['lines'][line_id]['routes'][route_id] ||= {'name' => route_name, 'stops' => []}
+
+                    cache[type_id]['lines'][line_id]['routes'][route_id]['stops'] = skgt.get_stops type_id, line_id, route_id
+
+                    skgt.set_state state
+                end
+                skgt.set_state state
+            end
+            skgt.set_state state
+        end
+
+        cache
     end
 
 end
