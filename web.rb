@@ -3,7 +3,11 @@ require 'sinatra'
 require 'skgt'
 require 'json'
 
-enable :sessions
+get '/cache/' do
+    content_type 'text/json', :charset => 'utf-8'
+    (File.open 'cache').read
+end
+    
 
 get'/' do
     redirect '/main.html'

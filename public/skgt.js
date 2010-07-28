@@ -67,90 +67,64 @@ $(function () {
 
 
     // bind behaviour to fields - every field populates and discards the next
+    var set_fields_behav = function (cache) {
+
     ttype.change(function () {
-        spinner_on();
-        $.get(
-            '/lines/',
-            {'ttype' : ttype.val()},
-            function (data) {
-                line.deactivate();
-                route.deactivate();
-                stop.deactivate();
+        line.deactivate();
+        route.deactivate();
+        stop.deactivate();
 
-                time.children().remove();
+        time.children().remove();
+        
+        var lines = cache[ttype.val()]['lines'];
 
-                for(var i=0;i<data.length;i++) {
-                    var element = data[i];
-
-                    if (!element) { continue; } // buggy API gives null in the beginning sometimes
-
-                    var
-                        name = element[0],
-                        id = element[1];
+        for(line_id in lines) {
+            var
+                name = lines[line_id]['name'],
+                id = line_id;
 
 
-                    line.create_option(id, name);
+            line.create_option(id, name);
 
-                }
+        }
 
-                spinner_off();
-            },
-            'json'
-        );
     });
 
     line.change(function () {
-        spinner_on();
-        $.get(
-            '/routes/',
-            {'ttype' : ttype.val(), 'line' : line.val()},
-            function (data) {
-                route.deactivate();
-                stop.deactivate();
-                time.children().remove();
+        route.deactivate();
+        stop.deactivate();
 
-                for(var i=0;i<data.length;i++) {
-                    var element = data[i];
+        time.children().remove();
 
-                    if (!element) { continue; } // buggy API gives null in the beginning sometimes
+        var routes = cache[ttype.val()]['lines'][line.val()]['routes'];
 
-                    var 
-                        name = element[0],
-                        id = element[1];
+        for(route_id in routes) {
 
-                    route.create_option(id, name);
+            var 
+                name = routes[route_id]['name'],
+                id = route_id;
 
-                }
-                spinner_off();
-            },
-            'json'
-        );
+            route.create_option(id, name);
+
+        }
     });
 
     route.change(function () {
-        spinner_on();
-        $.get(
-            '/stops/',
-            {'ttype' : ttype.val(), 'line' : line.val(), 'route' : route.val()},
-            function (data) {
-                stop.deactivate();
-                time.children().remove();
+        stop.deactivate();
 
-                for(var i=0;i<data.length;i++) {
-                    var element = data[i];
+        time.children().remove();
 
-                    if (!element) { continue; } // buggy API gives null in the beginning sometimes
+        var stops = cache[ttype.val()]['lines'][line.val()]['routes'][route.val()]['stops'];
 
-                    var 
-                        name = element[0],
-                        id = element[1];
+        for(var i=0; i<stops.length; i++) {
+            var a_stop = stops[i];
 
-                    stop.create_option(id, name);
-                }
-                spinner_off();
-            },
-            'json'
-        );
+            var 
+                name = a_stop[0],
+                id = a_stop[1];
+
+            stop.create_option(id, name);
+        }
     });
 
     stop.change(function () {
@@ -168,5 +142,17 @@ $(function () {
             'json'
         );
     });
+
+    }
+
+    $.get(
+        '/cache/',
+        {},
+        function (cache) {
+            c = cache;
+            set_fields_behav(cache);
+        },
+        'json'
+    );
 
 });
