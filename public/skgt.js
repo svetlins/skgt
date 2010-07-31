@@ -67,90 +67,101 @@ $(function () {
 
 
     // bind behaviour to fields - every field populates and discards the next
-    var set_fields_behav = function (cache) {
+    var set_fields_behav = function (initial_data) {
 
-    ttype.change(function () {
-        line.deactivate();
-        route.deactivate();
-        stop.deactivate();
+        ttype.change(function () {
+            line.deactivate();
+            route.deactivate();
+            stop.deactivate();
 
-        time.children().remove();
-        
-        var lines = cache[ttype.val()]['lines'];
+            time.children().remove();
+            
+            var lines = initial_data[ttype.val()]['lines'];
 
-        for(line_id in lines) {
-            var
-                name = lines[line_id]['name'],
-                id = line_id;
+            // make lines array
+            lines_array = [];
+            for (line_id in lines) {
+                lines[line_id].line_id = line_id
+                lines_array.push(lines[line_id]);
+            }
+            // and sort it
+            sorted_lines = lines_array.sort(function (a, b) {
+                return parseInt(a.name) - parseInt(b.name);
+            });
+            // should change the api and remove this crap
+
+            for(line_id in sorted_lines) {
+                var
+                    name = sorted_lines[line_id]['name'],
+                    id = sorted_lines[line_id]['line_id'];
 
 
-            line.create_option(id, name);
+                line.create_option(id, name);
 
-        }
+            }
 
-    });
+        });
 
-    line.change(function () {
-        route.deactivate();
-        stop.deactivate();
+        line.change(function () {
+            route.deactivate();
+            stop.deactivate();
 
-        time.children().remove();
+            time.children().remove();
 
-        var routes = cache[ttype.val()]['lines'][line.val()]['routes'];
+            var routes = initial_data[ttype.val()]['lines'][line.val()]['routes'];
 
-        for(route_id in routes) {
+            for(route_id in routes) {
 
-            var 
-                name = routes[route_id]['name'],
-                id = route_id;
+                var 
+                    name = routes[route_id]['name'],
+                    id = route_id;
 
-            route.create_option(id, name);
+                route.create_option(id, name);
 
-        }
-    });
+            }
+        });
 
-    route.change(function () {
-        stop.deactivate();
+        route.change(function () {
+            stop.deactivate();
 
-        time.children().remove();
+            time.children().remove();
 
-        var stops = cache[ttype.val()]['lines'][line.val()]['routes'][route.val()]['stops'];
+            var stops = initial_data[ttype.val()]['lines'][line.val()]['routes'][route.val()]['stops'];
 
-        for(var i=0; i<stops.length; i++) {
-            var a_stop = stops[i];
+            for(var i=0; i<stops.length; i++) {
+                var a_stop = stops[i];
 
-            var 
-                name = a_stop[0],
-                id = a_stop[1];
+                var 
+                    name = a_stop[0],
+                    id = a_stop[1];
 
-            stop.create_option(id, name);
-        }
-    });
+                stop.create_option(id, name);
+            }
+        });
 
-    stop.change(function () {
-        spinner_on();
-        $.get(
-            '/times/',
-            {'ttype' : ttype.val(), 'line' : line.val(), 'route' : route.val(), 'stop' : stop.val()},
-            function (times) {
-                time.children().remove();
+        stop.change(function () {
+            spinner_on();
+            $.get(
+                '/times/',
+                {'ttype' : ttype.val(), 'line' : line.val(), 'route' : route.val(), 'stop' : stop.val()},
+                function (times) {
+                    time.children().remove();
 
-                time.append(render_times(times));
+                    time.append(render_times(times));
 
-                spinner_off();
-            },
-            'json'
-        );
-    });
+                    spinner_off();
+                },
+                'json'
+            );
+        });
 
     }
 
     $.get(
-        '/cache/',
+        '/initial_data/',
         {},
-        function (cache) {
-            c = cache;
-            set_fields_behav(cache);
+        function (initial_data) {
+            set_fields_behav(initial_data);
         },
         'json'
     );
