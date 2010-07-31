@@ -3,6 +3,7 @@ require 'sinatra'
 require 'skgt'
 require 'json'
 
+
 get '/cache/' do
     content_type 'text/json', :charset => 'utf-8'
     (File.open 'cache').read
