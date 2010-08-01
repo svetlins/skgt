@@ -38,10 +38,12 @@ label {
 }
 
 input, select {
-    font-size: 1em;
+    font-size: 1.2em;
     margin-bottom: 20px;
     width: 60%;
+    height: 29px;
     background-color: #aaa;
+    text-align: center;
 }
 
 select[disabled] {
