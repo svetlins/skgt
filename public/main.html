@@ -8,9 +8,11 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="/jquery.form.js"></script>
 <script src="/skgt.js"></script>
+<script src="/jquery.awesomecomplete.js"></script>
 
 <link rel="stylesheet" href="/reset.css" />
 <link rel="stylesheet" href="/skgt.css" />
+<link rel="stylesheet" href="/awesomecomplete.css" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" /> 
@@ -35,18 +37,13 @@
         <option value="2">Тролейбус</option>
     </select>
 
-    <br />
-
     <div>
     <label for="line">
         Линия
     </label>
-    <select name="line" disabled="true">
-        <option class="empty"></option>
-    </select>
+    <input type="number" name="line_ac" disabled="true" />
+    <input type="hidden" name="line" />
     </div>
-
-    <br />
 
     <label for="route">
         Посока
@@ -54,8 +51,6 @@
     <select name="route" disabled="true">
         <option class="empty"></option>
     </select>
-
-    <br />
 
     <label for="stop">
         Спирка

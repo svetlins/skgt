@@ -8,9 +8,10 @@ $(function () {
     }
 
     var ttype = $('select[name="ttype"]');
-    var line = $('select[name="line"]');
+    var line = $('input[name="line"]');
     var route = $('select[name="route"]');
     var stop = $('select[name="stop"]');
+    var line_ac = $('input[name=line_ac]');
 
     var time = $('#times');
 
@@ -57,10 +58,17 @@ $(function () {
             }
         },
         'deactivate' : function () {
-            if ($(this).is('select')) {
-                $(this).find('option:not(.empty)').remove();
-                $(this).attr('disabled', true);
+            var that = $(this);
+
+            if (that.is('select')) {
+                that.find('option:not(.empty)').remove();
+            } else {
+                that.val('');
+                that.siblings('input[type=number]').val('');
             }
+
+            that.attr('disabled', true);
+            that.siblings('.autocomplete').remove();
         }
     });
 
@@ -88,17 +96,29 @@ $(function () {
             sorted_lines = lines_array.sort(function (a, b) {
                 return parseInt(a.name) - parseInt(b.name);
             });
-            // should change the api and remove this crap
 
-            for(line_id in sorted_lines) {
-                var
-                    name = sorted_lines[line_id]['name'],
-                    id = sorted_lines[line_id]['line_id'];
+            line_ac.awesomecomplete({
+                noResultsMessage : 'Няма такава линия',
+                staticData : sorted_lines,
+                dontMatch : ['line_id'],
+                valueFunction : function (datum) {
+                    return datum.name;
+                },
+                onComplete : function (datum) {
+                    $('input[name=line]').val(datum.line_id).change();
+                },
+                renderFunction : function (datum, topMatch, originalData) {
+                    return '<p class="title">' + datum['name'] + '</p>';
+                }
+            });
 
+            var input_position = line_ac.position();
 
-                line.create_option(id, name);
+            $('input[name=line_ac]').attr('disabled', false);
+            $('.autocomplete')
+                .css('top', input_position.top + line_ac.height())
+                .css('left', input_position.left);
 
-            }
 
         });
 
@@ -165,5 +185,10 @@ $(function () {
         },
         'json'
     );
+
+    // the form is never really submitted
+    $('form').submit(function (e) {
+        e.preventDefault();
+    });
 
 });
