@@ -112,12 +112,23 @@ $(function () {
                 }
             });
 
-            var input_position = line_ac.position();
-
             $('input[name=line_ac]').attr('disabled', false);
-            $('.autocomplete')
-                .css('top', input_position.top + line_ac.height())
-                .css('left', input_position.left);
+
+
+            position_ac = function () {
+                var input_position = line_ac.position();
+
+                $('.autocomplete')
+                    .css('top', input_position.top + line_ac.height())
+                    .css('left', input_position.left)
+                    .css('width', line_ac.innerWidth());
+            }
+
+            window.onorientationchange = position_ac;
+
+            setTimeout(function () { 
+            position_ac();
+            }, 100);
 
 
         });
@@ -139,6 +150,13 @@ $(function () {
                 route.create_option(id, name);
 
             }
+        });
+
+        line_ac.focus(function () {
+            route.deactivate();
+            stop.deactivate();
+
+            time.children().remove();
         });
 
         route.change(function () {
@@ -190,5 +208,5 @@ $(function () {
     $('form').submit(function (e) {
         e.preventDefault();
     });
-
+    
 });
