@@ -68,6 +68,7 @@ $(function () {
             }
 
             that.attr('disabled', true);
+            //that.addClass('disabled');
             that.siblings('.autocomplete').remove();
         }
     });
@@ -101,6 +102,7 @@ $(function () {
                 noResultsMessage : 'Няма такава линия',
                 staticData : sorted_lines,
                 dontMatch : ['line_id'],
+                resultLimit : 4,
                 valueFunction : function (datum) {
                     return datum.name;
                 },
@@ -207,6 +209,10 @@ $(function () {
     // the form is never really submitted
     $('form').submit(function (e) {
         e.preventDefault();
+    });
+
+    $('input').focus(function () {
+        $('body').scrollTop($('#below-header').position().top);
     });
     
 });
