@@ -120,15 +120,17 @@
             });
             $this.blur(function()
             {
-                if (mouseDown)
+                if (false && mouseDown)
                 {
                     blurWait = true;
                 }
                 else
                 {
                     var $active = $list.children('li.' + config.activeItemClass);
-                    if ($list.is(':visible') && ($active.length !== 0))
+                    if ($list.is(':visible') && ($active.length !== 0)) {
                         $this.val($active.data('awesomecomplete-value'));
+                        config.onComplete($active.data('awesomecomplete-dataItem'));
+                    }
                     $list.hide();
                 }
             });
@@ -250,6 +252,8 @@
         });
         results = results.slice(0, config.resultLimit);
 
+        var first = true;
+
         for (var i in results)
         {
             var listItem = $('<li>' + config.renderFunction(results[i].dataItem, results[i].topMatch, results[i].originalDataItem) + '</li>')
@@ -267,9 +271,11 @@
                            .siblings().removeClass(config.activeItemClass);
                 });
 
-            if (results.length === 1) {
+            if ((results.length === 1) || (first === true)) {
                 listItem.addClass('active');
             }
+
+            first = false;
         }
 
         if ((config.noResultsMessage !== undefined) && (results.length == 0))
