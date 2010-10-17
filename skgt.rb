@@ -166,7 +166,10 @@ module Skgt
                 span.children.to_s
             end
 
-            return times.compact
+            return times.compact.map do |time|
+                time[0...5]
+            end
+
         end
 
     end

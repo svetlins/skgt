@@ -4,18 +4,12 @@ require 'skgt'
 require 'json'
 
 
-get '/initial_data/' do
-    content_type 'text/json', :charset => 'utf-8'
-    expires 60 * 60 * 24 * 365, :public
-    (File.open 'initial_data').read
-end
-
-get '/cache.manifest/' do
-    content_type 'text/cache-manifest'
-    expires 0, :public
-    (File.open 'cache.manifest').read
-end
-    
+# get '/initial_data/' do
+#     content_type 'text/json', :charset => 'utf-8'
+#     expires 60 * 60 * 24 * 365, :public
+#     (File.open 'initial_data').read
+# end
+# 
 
 get'/' do
     redirect '/main.html'
@@ -24,11 +18,12 @@ end
 get '/times/' do
     content_type 'text/json', :charset => 'utf-8'
     skgt = Skgt::SKGTHandler.new
-    times = skgt.get_times params[:ttype], params[:line], params[:route], params[:stop]
-
-    times = times.map do |time|
-        time[0...5]
-    end
+    times = skgt.get_times(
+        params[:ttype],
+        params[:line],
+        params[:route],
+        params[:stop]
+    )
 
     JSON.dump(times)
 end
