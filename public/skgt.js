@@ -197,12 +197,11 @@ $(function () {
 
     }
 
+    // populate inputs
     $.get(
         '/initial_data/',
         {},
-        function (initial_data) {
-            set_fields_behav(initial_data);
-        },
+        set_fields_behav,
         'json'
     );
 
@@ -211,6 +210,7 @@ $(function () {
         e.preventDefault();
     });
 
+    // make room for auto complete
     $('input').focus(function () {
         $('body').scrollTop($('#below-header').position().top);
     });
