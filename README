@@ -15,3 +15,13 @@ This file is a mess, reflecting the absolutely shitty asp backend SKGT uses AND
 my lack of clear vision how to structure it. It works as of now but I promise
 some day I'll rewrite it.
 ==================
+
+===== WEBKIT =====
+This is a mobile frontend targeting mobile WebKit. Tested on iOS and Android
+devices. Otherwise mostly works with any browser(the latest versions) except, of
+course IE
+==================
+
+===== DEMO =====
+See live demo at http://skgt.heroku.com
+================
