@@ -1,0 +1,17 @@
+===== WHAT IT IS =====
+SKGT Mobile Frontend for gps data about public transport in Sofia taken from
+http://gps.skgt-bg.com
+======================
+
+===== REQUIREMENTS =====
+require ruby (tested on 1.8.7 and as heroku deployment) and the following gems:
+ - sinatra
+ - json
+ - nokogiri
+ =======================
+
+===== skgt.rb ====
+This file is a mess, reflecting the absolutely shitty asp backend SKGT uses AND
+my lack of clear vision how to structure it. It works as of now but I promise
+some day I'll rewrite it.
+==================
