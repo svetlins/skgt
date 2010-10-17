@@ -9,6 +9,12 @@ get '/initial_data/' do
     expires 60 * 60 * 24 * 365, :public
     (File.open 'initial_data').read
 end
+
+get '/cache.manifest/' do
+    content_type 'text/cache-manifest'
+    expires 0, :public
+    (File.open 'cache.manifest').read
+end
     
 
 get'/' do
