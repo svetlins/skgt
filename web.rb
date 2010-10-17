@@ -3,14 +3,6 @@ require 'sinatra'
 require 'skgt'
 require 'json'
 
-
-# get '/initial_data/' do
-#     content_type 'text/json', :charset => 'utf-8'
-#     expires 60 * 60 * 24 * 365, :public
-#     (File.open 'initial_data').read
-# end
-# 
-
 get'/' do
     redirect '/main.html'
 end
