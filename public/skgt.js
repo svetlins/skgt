@@ -199,7 +199,7 @@ $(function () {
 
     // populate inputs
     $.get(
-        '/initial_data/',
+        '/initial_data.json/',
         {},
         set_fields_behav,
         'json'
