@@ -1,0 +1,74 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<title>
+    Градски транспорт София
+</title>
+<meta http-equiv="Content-Type" value="text/html; charset=utf-8" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="/jquery.form.js"></script>
+<script src="/skgt.js"></script>
+<script src="/urls.js"></script>
+<script src="/jquery.awesomecomplete.js"></script>
+
+<link rel="stylesheet" href="/reset.css" />
+<link rel="stylesheet" href="/skgt.css" />
+<link rel="stylesheet" href="/awesomecomplete.css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no;" /> 
+<link rel="apple-touch-icon" href="/icon.png"/>
+</head>
+
+<body>
+
+<div id="header">
+    <h1>СКГТ</h1>
+    <h2>Разписание</h2>
+</div>
+<div id="below-header" / >
+
+<form>
+    <label for="ttype">
+        Вид транспорт
+    </label>
+    <select name="ttype">
+        <option class="empty"></option>
+        <option value="1">Автобус</option>
+        <option value="0">Трамвай</option>
+        <option value="2">Тролейбус</option>
+    </select>
+
+    <div>
+    <label for="line">
+        Линия
+    </label>
+    <input type="number" name="line_ac" disabled="true" />
+    <input type="hidden" name="line" />
+    </div>
+
+    <label for="route">
+        Посока
+    </label>
+    <select name="route" disabled="true">
+        <option class="empty"></option>
+    </select>
+
+    <label for="stop">
+        Спирка
+    </label>
+    <select name="stop" disabled="true">
+        <option class="empty"></option>
+    </select>
+</form>
+
+<div id="times">
+</div>
+
+<div id="spinner">
+</div>
+
+</body>
+
+</html>
